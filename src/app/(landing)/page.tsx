@@ -1,8 +1,8 @@
 import React from "react";
-import MaxWidth from "../components/MaxWidth";
-import Heading from "../components/Heading";
+import MaxWidth from "../../components/MaxWidth";
+import Heading from "../../components/Heading";
 import { Check } from "lucide-react";
-import ShinyButton from "../components/ShinyButton";
+import ShinyButton from "../../components/ShinyButton";
 
 function page() {
   return (
