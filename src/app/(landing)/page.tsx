@@ -3,6 +3,7 @@ import MaxWidth from "../../components/MaxWidth";
 import Heading from "../../components/Heading";
 import { Check } from "lucide-react";
 import ShinyButton from "../../components/ShinyButton";
+import MockDiscordUI from "@/components/MockDiscordUI";
 
 function page() {
   return (
@@ -51,7 +52,17 @@ function page() {
           </div>
         </MaxWidth>
       </section>
-      <section></section>
+
+      <section className="relative bg-brand-50 pb-4">
+        <div className="absolute inset-x-0 buttom-24 top-24 bg-brand-700"></div>
+        <div className="relative mx-auto">
+          <MaxWidth className="relative">
+            <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+            <MockDiscordUI></MockDiscordUI>
+            </div>
+          </MaxWidth>
+        </div>
+      </section>
       <section></section>
       <section></section>
     </>
