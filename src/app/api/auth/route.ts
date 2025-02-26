@@ -24,6 +24,7 @@ export async function GET() {
 
       return NextResponse.json({ isSynced: true }, { status: 200 });
     }
+    return NextResponse.json({ isSynced: true }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ isSynced: false }, { status: 500 });
