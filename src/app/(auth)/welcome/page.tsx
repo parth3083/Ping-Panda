@@ -1,9 +1,29 @@
+"use client"
 import Heading from "@/components/Heading";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useQuery } from "@tanstack/react-query";
 import { LucideProps } from "lucide-react";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
-function page() {
+function Page() {
+  const router = useRouter();
+  const { data } = useQuery({
+    queryFn: async () => {
+      const res = await fetch("/api/auth");
+      return await res.json();
+    },
+    queryKey: ["get-database-sync-status"],
+    refetchInterval: (query) => {
+      return query.state.data?.isSynced ? false : 1000;
+    },
+  });
+
+  useEffect(() => {
+    if (data?.isSynced) {
+      router.push("/dashboard");
+    }
+  }, [data, router]);
   return (
     <div className="flex w-full flex-1 items-center justify-center px-4">
       <BackgroundPattern className="absolute inset-0 left-1/2 z-0 -translate-x-1/2 opacity-75" />
@@ -117,4 +137,4 @@ const BackgroundPattern = (props: LucideProps) => {
   );
 };
 
-export default page;
+export default Page;
