@@ -1,4 +1,5 @@
 "use client";
+import DashboardEmptyState from "@/components/DashboardEmptyState";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
@@ -61,7 +62,7 @@ function DashboardPageContent() {
   }
 
   if (!categories || categories.length === 0) {
-    return <div>Empty State</div>;
+    return <DashboardEmptyState/>;
   }
 
   return (

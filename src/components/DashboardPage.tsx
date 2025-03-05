@@ -19,7 +19,7 @@ function DashboardPage({
   return (
     <section className="flex-1 h-full w-full flex flex-col">
       <div className="p-6 w-full sm:p-8 flex justify-between border-b border-gray-200">
-        <div className="flex w-full flex-col items-start sm:flex-row sm:items-center gap-y-6">
+        <div className="flex w-full flex-col items-start sm:flex-row sm:items-center gap-x-5 gap-y-6">
           <div className="flex items-center gap-8">
           {hideBackButton ? null : (
             <Button className="w-fit  bg-white" variant={"outline"}>
