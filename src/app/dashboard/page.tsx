@@ -20,7 +20,7 @@ async function page() {
     redirect("/sign-in");
   }
   return (
-    <DashboardPage title="Dashboard">
+    <DashboardPage  title="Dashboard">
       <DashboardPageContent/>
     </DashboardPage>
   );
