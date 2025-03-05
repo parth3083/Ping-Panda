@@ -7,7 +7,7 @@ interface IDashboardPage {
   title: string;
   children?: ReactNode;
   hideBackButton?: boolean;
-  cta?: boolean;
+  cta?: ReactNode;
 }
 
 function DashboardPage({

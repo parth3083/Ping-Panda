@@ -5,6 +5,9 @@ import { redirect } from "next/navigation";
 
 import React from "react";
 import DashboardPageContent from "./DashboardPageContent";
+import CreateEventCategoryModal from "@/components/CreateEventCategoryModal";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
 
 async function page() {
   const prisma = new PrismaClient();
@@ -20,8 +23,18 @@ async function page() {
     redirect("/sign-in");
   }
   return (
-    <DashboardPage  title="Dashboard">
-      <DashboardPageContent/>
+    <DashboardPage
+      cta={
+        <CreateEventCategoryModal>
+          <Button>
+            <PlusIcon className="size-4 mr-2" />
+            Add Category
+          </Button>
+        </CreateEventCategoryModal>
+      }
+      title="Dashboard"
+    >
+      <DashboardPageContent />
     </DashboardPage>
   );
 }
