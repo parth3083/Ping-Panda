@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 import React from "react";
+import DashboardPageContent from "./DashboardPageContent";
 
 async function page() {
   const prisma = new PrismaClient();
@@ -19,7 +20,9 @@ async function page() {
     redirect("/sign-in");
   }
   return (
-    <DashboardPage title="Dashboard">Dashboard Page content</DashboardPage>
+    <DashboardPage title="Dashboard">
+      <DashboardPageContent/>
+    </DashboardPage>
   );
 }
 
