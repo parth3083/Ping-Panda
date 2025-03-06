@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import Card from "./ui/Card";
 import { Button } from "./ui/button";
+import CreateEventCategoryModal from "./CreateEventCategoryModal";
 
 function DashboardEmptyState() {
   const queryClient = useQueryClient();
@@ -44,6 +45,13 @@ function DashboardEmptyState() {
           <span className="size-5">🚀</span>
           <span>{isPending ? "Creating..." : "Quickstart"}</span>
         </Button>
+        <CreateEventCategoryModal containerClassName="w-full sm:w-auto">
+          <Button className="flex items-center space-x-2 w-full sm:w-auto">
+            <span>Add Category</span>
+
+          </Button>
+        </CreateEventCategoryModal>
+
       </div>
     </Card>
   );
