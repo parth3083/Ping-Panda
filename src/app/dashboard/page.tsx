@@ -31,10 +31,7 @@ async function page({ searchParams }: PageProps) {
     redirect("/sign-in");
   }
 
-  // ✅ Correct way to extract search params in a server component
-  const params = new URLSearchParams(searchParams as any);
-  const intent = params.get("intent");
-  const success = params.get("success");
+  const intent = searchParams.intent;
 
   if (intent === "upgrade") {
     const session = await createCheckOutSession({
@@ -46,9 +43,10 @@ async function page({ searchParams }: PageProps) {
     }
   }
 
+  const success = searchParams.success;
   return (
     <>
-      {success && <PaymentSuccessModal />}
+      {success ? <PaymentSuccessModal /> : null}
       <DashboardPage
         cta={
           <CreateEventCategoryModal>
@@ -67,4 +65,3 @@ async function page({ searchParams }: PageProps) {
 }
 
 export default page;
-
