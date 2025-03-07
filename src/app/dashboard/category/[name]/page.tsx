@@ -3,7 +3,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
 import { notFound } from "next/navigation";
 import React from "react";
-import CategoryPageContent from "./CategoryPageContent";
+import { CategoryPageContent } from "./CategoryPageContent";
+
 
 interface pageParams {
   params: {
