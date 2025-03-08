@@ -9,12 +9,12 @@ import { CategoryPageContent } from "./CategoryPageContent"
 
 interface PageProps {
   params: {
-    name: string 
+    name: string | string[] | undefined
   }
 }
 
 const Page = async ({ params }: PageProps) => {
-  if (!params?.name) return notFound()
+  if (typeof params.name !== "string") return notFound()
 
   const auth = await currentUser()
 
