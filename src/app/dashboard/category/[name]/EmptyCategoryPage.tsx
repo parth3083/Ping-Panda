@@ -34,7 +34,7 @@ function EmptyCategoryPage({ categoryName }: { categoryName: string }) {
     }
   }, [router, hasEvents]);
     
-    const codeSnippet = `await fetch('https://localhost:3000/api/events', {
+    const codeSnippet = `await fetch('https://ping-panda-nine.vercel.app/api/v1/events', {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY'
