@@ -11,10 +11,10 @@ import PaymentSuccessModal from "@/components/PaymentSuccessModal";
 import { PrismaClient } from "@prisma/client";
 
 // Following the pattern from your working code
-const Page = async ({ 
-  searchParams 
-}: { 
-  searchParams: Promise<Record<string, string | string[] | undefined>> 
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) => {
   const resolvedSearchParams = await searchParams;
   const auth = await currentUser();
@@ -29,7 +29,7 @@ const Page = async ({
   });
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/welcome");
   }
 
   if (resolvedSearchParams.intent === "upgrade") {
