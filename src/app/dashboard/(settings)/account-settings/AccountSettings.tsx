@@ -13,15 +13,17 @@ function AccountSettings({
   discordId: string;
 }) {
   const [discordId, setDiscordId] = useState(initialDiscordId);
+  
+  // Fix: Update mutation to accept a parameter
   const { mutate, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await fetch("api/set-discordId", {
+    mutationFn: async (discordIdToSave: string) => {
+      const response = await fetch("/api/set-discordId", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          discordId,
+          discordId: discordIdToSave,
         }),
       });
       return await response.json();

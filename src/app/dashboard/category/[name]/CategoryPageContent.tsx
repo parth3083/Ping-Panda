@@ -24,7 +24,7 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import  Heading  from "@/components/Heading";
+import Heading from "@/components/Heading";
 import {
   Table,
   TableBody,
@@ -37,6 +37,12 @@ import {
 interface CategoryPageContentProps {
   hasEvents: boolean;
   category: EventCategory;
+}
+
+// Define the shape of the data returned by the API
+interface EventsData {
+  events: Event[];
+  eventsCount: number;
 }
 
 export const CategoryPageContent = ({
@@ -63,7 +69,7 @@ export const CategoryPageContent = ({
     initialData: { hasEvents: initialHasEvents },
   });
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching } = useQuery<EventsData>({
     queryKey: [
       "events",
       category.name,
@@ -170,7 +176,6 @@ export const CategoryPageContent = ({
     },
   });
 
-
   const router = useRouter();
 
   useEffect(() => {
@@ -179,8 +184,6 @@ export const CategoryPageContent = ({
     searchParams.set("limit", pagination.pageSize.toString());
     router.push(`?${searchParams.toString()}`, { scroll: false });
   }, [pagination, router]);
-
-
 
   const numericFieldSums = useMemo(() => {
     if (!data?.events || data.events.length === 0) return {};
@@ -199,8 +202,9 @@ export const CategoryPageContent = ({
     const weekStart = startOfWeek(now, { weekStartsOn: 0 });
     const monthStart = startOfMonth(now);
 
-    data.events.forEach((event) => {
-      const eventDate = event.createdAt;
+    // Fix: Add proper type for the event parameter
+    data.events.forEach((event: Event) => {
+      const eventDate = new Date(event.createdAt);
 
       Object.entries(event.fields as object).forEach(([field, value]) => {
         if (typeof value === "number") {

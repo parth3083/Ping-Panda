@@ -1,8 +1,6 @@
 import DashboardPage from "@/components/DashboardPage";
 import { currentUser } from "@clerk/nextjs/server";
-import { PrismaClient } from "@prisma/client";
 import { redirect } from "next/navigation";
-
 import React from "react";
 import DashboardPageContent from "./DashboardPageContent";
 import CreateEventCategoryModal from "@/components/CreateEventCategoryModal";
@@ -10,43 +8,50 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { createCheckOutSession } from "@/lib/stripe";
 import PaymentSuccessModal from "@/components/PaymentSuccessModal";
+import { PrismaClient } from "@prisma/client";
 
-interface PageProps {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-}
-
-async function page({ searchParams }: PageProps) {
-  const prisma = new PrismaClient();
+// Following the pattern from your working code
+const Page = async ({ 
+  searchParams 
+}: { 
+  searchParams: Promise<Record<string, string | string[] | undefined>> 
+}) => {
+  const resolvedSearchParams = await searchParams;
   const auth = await currentUser();
+  const prisma = new PrismaClient();
 
   if (!auth) {
     redirect("/sign-in");
   }
+
   const user = await prisma.user.findUnique({
     where: { externalId: auth.id },
   });
+
   if (!user) {
     redirect("/sign-in");
   }
 
-  const intent = searchParams.intent;
+  if (resolvedSearchParams.intent === "upgrade") {
+    try {
+      const session = await createCheckOutSession({
+        userEmail: user.email,
+        userId: user.id,
+      });
 
-  if (intent === "upgrade") {
-    const session = await createCheckOutSession({
-      userEmail: user.email,
-      userId: user.id,
-    });
-    if (session.url) {
-      redirect(session.url);
+      if (session?.url) {
+        redirect(session.url);
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
     }
   }
 
-  const success = searchParams.success;
+  const success = resolvedSearchParams.success;
+
   return (
     <>
-      {success ? <PaymentSuccessModal /> : null}
+      {success && <PaymentSuccessModal />}
       <DashboardPage
         cta={
           <CreateEventCategoryModal>
@@ -62,6 +67,6 @@ async function page({ searchParams }: PageProps) {
       </DashboardPage>
     </>
   );
-}
+};
 
-export default page;
+export default Page;

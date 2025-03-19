@@ -1,37 +1,28 @@
+import DashboardPage from "@/components/DashboardPage";
+import { currentUser } from "@clerk/nextjs/server";
+import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
+import { CategoryPageContent } from "./CategoryPageContent";
 
+const Page = async ({ params }: { params: Promise<{ name: string }> }) => {
+  const { name } = await params;
 
-import DashboardPage from "@/components/DashboardPage"
-import { currentUser } from "@clerk/nextjs/server"
-import { PrismaClient } from "@prisma/client"
-import { notFound } from "next/navigation"
-import { CategoryPageContent } from "./CategoryPageContent"
-
-
-interface PageProps {
-  params: {
-    name: string | string[] | undefined
-  }
-}
-
-const Page = async ({ params }: PageProps) => {
-  if (typeof params.name !== "string") return notFound()
-
-  const auth = await currentUser()
+  const auth = await currentUser();
 
   if (!auth) {
-    return notFound()
+    return notFound();
   }
   const prisma = new PrismaClient();
   const user = await prisma.user.findUnique({
     where: { externalId: auth.id },
-  })
+  });
 
-  if (!user) return notFound()
+  if (!user) return notFound();
 
   const category = await prisma.eventCategory.findUnique({
     where: {
       name_userId: {
-        name: params.name,
+        name,
         userId: user.id,
       },
     },
@@ -42,17 +33,17 @@ const Page = async ({ params }: PageProps) => {
         },
       },
     },
-  })
+  });
 
-  if (!category) return notFound()
+  if (!category) return notFound();
 
-  const hasEvents = category._count.events > 0
+  const hasEvents = category._count.events > 0;
 
   return (
     <DashboardPage title={`${category.emoji} ${category.name} events`}>
       <CategoryPageContent hasEvents={hasEvents} category={category} />
     </DashboardPage>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
